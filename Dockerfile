@@ -1,15 +1,14 @@
-# 1. Build (Usando Node.js para compilar)
-FROM node:18 AS build
+# Estágio 1: Build
+FROM node:18-alpine AS build
 WORKDIR /app
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-# 2. Produção
+# Estágio 2: Produção com NGINX
 FROM nginx:alpine
-
-# O Vite gera os arquivos na pasta 'dist' por padrão
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
