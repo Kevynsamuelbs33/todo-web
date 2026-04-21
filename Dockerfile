@@ -4,9 +4,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN CI=false npm run build
 
-# Estágio 2: Produção
+# Estágio 2: Produção com NGINX
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
