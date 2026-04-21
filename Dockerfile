@@ -1,10 +1,10 @@
 # Estágio 1: Build
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN CI=false npm run build
+RUN npm run build
 
 # Estágio 2: Produção com NGINX
 FROM nginx:alpine
